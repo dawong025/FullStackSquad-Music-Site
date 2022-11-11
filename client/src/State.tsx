@@ -1,9 +1,13 @@
+// NOTE: TRUMPET HAS NOT BEEN IMPLEMENTED YET
+
 // 3rd party
 import { List, Map } from 'immutable';
 
 // project dependencies
 import { PianoInstrument } from './instruments/Piano';
 import { WaveformVisualizer } from './visualizers/Waveform';
+import { dawong025Visualizer } from './visualizers/dawong025';
+import { TrumpetInstrument } from './instruments/dawong025';
 
 
 /** ------------------------------------------------------------------------ **
@@ -15,13 +19,13 @@ export type AppState = Map<string, any>;           // similar to { [id: string]:
  * Start with the default piano instrument.
  * Add your instruments to this list.
  */
-const instruments = List([PianoInstrument]);       // similar to Instrument[]
+const instruments = List([PianoInstrument, TrumpetInstrument]);       // similar to Instrument[]
 
 /**
  * Start with the default waveform visualizer.
  * Add your visualizers to this list.
  */
-const visualizers = List([WaveformVisualizer]);    // similar to Visualizer[]
+const visualizers = List([WaveformVisualizer, dawong025Visualizer]);    // similar to Visualizer[]
 
 
 /**
