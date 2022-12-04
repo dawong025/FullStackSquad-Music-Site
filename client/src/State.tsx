@@ -3,6 +3,7 @@ import { List, Map } from 'immutable';
 
 // project dependencies
 import { PianoInstrument } from './instruments/Piano';
+import { XylophoneInstrument } from './instruments/Xylophone';
 import { WaveformVisualizer } from './visualizers/Waveform';
 import { JC305Visualizer } from './visualizers/jc305';
 
@@ -16,7 +17,7 @@ export type AppState = Map<string, any>;           // similar to { [id: string]:
  * Start with the default piano instrument.
  * Add your instruments to this list.
  */
-const instruments = List([PianoInstrument]);       // similar to Instrument[]
+const instruments = List([PianoInstrument, XylophoneInstrument]);       // similar to Instrument[]
 
 /**
  * Start with the default waveform visualizer.

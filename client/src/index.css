@@ -89,3 +89,38 @@ html, body, #root {
   from {transform:rotate(0deg);}
   to {transform:rotate(360deg);}
 }
+
+
+/*CSS styling for Xylophone.tsx*/
+
+.CNoteImage:hover {
+  opacity: 0.3;
+}
+
+.DNoteImage:hover {
+  opacity: 0.3;
+}
+
+.ENoteImage:hover {
+  opacity: 0.3;
+}
+
+.FNoteImage:hover {
+  opacity: 0.3;
+}
+
+.GNoteImage:hover {
+  opacity: 0.3;
+}
+
+.ANoteImage:hover {
+  opacity: 0.3;
+}
+
+.BNoteImage:hover {
+  opacity: 0.3;
+}
+
+.CApostropheNoteImage:hover {
+  opacity: 0.3;
+}
