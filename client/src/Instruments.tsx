@@ -84,7 +84,7 @@ export const InstrumentContainer: React.FC<InstrumentContainerProps> = (
                             G5: "xylophone-g.wav",
                             A6: "xylophone-a.wav",
                             B7: "xylophone-b.wav",
-                            C2: "C2.mp3"
+                            C2: "xylophone-c2.wav"
                         },
                         baseUrl: "http://localhost:3000/",
                         onload: () => {

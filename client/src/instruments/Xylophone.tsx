@@ -27,14 +27,10 @@ export function Xylophone(): JSX.Element {
             G5: "xylophone-g.wav",
             A6: "xylophone-a.wav",
             B7: "xylophone-b.wav",
-            C2: "C2.mp3",
+            C2: "xylophone-c2.wav",
         },
         baseUrl: "http://localhost:3000/",
-        onload: () => {
-            note.triggerAttackRelease([
-                "C1", "D2", "E3", "F4",
-                "G5","A6", "B7", "C2" ], 0.5);
-        }
+
     }).toDestination();
     return (
         <div>
