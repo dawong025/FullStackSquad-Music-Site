@@ -54,7 +54,7 @@ export function Xylophone(): JSX.Element {
                     style={{
                         width: '100px',
                         background: 'red',
-                        height: '300px',
+                        height: '280px',
                     }}
                 />
                 <img className="DNoteImage"
@@ -67,7 +67,7 @@ export function Xylophone(): JSX.Element {
                     style={{
                         width: '100px',
                         background: '#edb262',
-                        height: '280px'
+                        height: '260px'
                     }}
                 />
                 <img className="ENoteImage"
@@ -80,7 +80,7 @@ export function Xylophone(): JSX.Element {
                     style={{
                         width: '100px',
                         background: '#f1e554',
-                        height: '260px'
+                        height: '240px'
                     }}
                 />
                 <img className="FNoteImage"
@@ -93,7 +93,7 @@ export function Xylophone(): JSX.Element {
                     style={{
                         width: '100px',
                         background: '#9acd5b',
-                        height: '240px'
+                        height: '220px'
                     }}
                 />
                 <img className="GNoteImage"
@@ -106,7 +106,7 @@ export function Xylophone(): JSX.Element {
                     style={{
                         width: '100px',
                         background: '#3ab369',
-                        height: '220px'
+                        height: '200px'
                     }}
                 />
                 <img className="ANoteImage"
@@ -119,7 +119,7 @@ export function Xylophone(): JSX.Element {
                     style={{
                         width: '100px',
                         background: '#6d4098',
-                        height: '200px'
+                        height: '180px'
                     }}
                 />
                 <img className="BNoteImage"
@@ -132,7 +132,7 @@ export function Xylophone(): JSX.Element {
                     style={{
                         width: '100px',
                         background: '#dc63dc',
-                        height: '180px'
+                        height: '160px'
                     }}
                 />
                 <img className="CApostropheNoteImage"
@@ -144,7 +144,7 @@ export function Xylophone(): JSX.Element {
                     style={{
                         width: '100px',
                         background: '#e45155',
-                        height: '160px'
+                        height: '140px'
                     }}
                 />
 
