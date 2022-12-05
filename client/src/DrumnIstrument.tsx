@@ -1,3 +1,11 @@
+/*
+Re-implemntation of instruments.tsx but chaning any Tone.synth calls to
+Tone.MembraneSynth, since this class will be used within the drum
+machine.
+*/
+
+
+
 // 3rd party library imports
 import React, { useState, useEffect } from 'react';
 import * as Tone from 'tone';
@@ -6,18 +14,13 @@ import * as Tone from 'tone';
 import { DispatchAction } from './Reducer';
 import { AppState } from './State';
 
-/** ------------------------------------------------------------------------ **
- * Contains implementation of an Instruments.
- ** ------------------------------------------------------------------------ */
-
 export interface InstrumentProps {
   state: AppState;
   dispatch: React.Dispatch<DispatchAction>;
   name: string;
-  synth: Tone.MembraneSynth;
+  synth: Tone.MembraneSynth; // changed to membrane synth for drum machine.
   setSynth: (f: (oldSynth: Tone.Synth) => Tone.MembraneSynth) => void;
 }
-
 export class MembraneInstrument {
   public readonly name: string;
   public readonly component: React.FC<InstrumentProps>;
@@ -27,7 +30,6 @@ export class MembraneInstrument {
     this.component = component;
   }
 }
-
 function TopNav({ name }: { name: string }) {
   return (
     <div
@@ -39,13 +41,11 @@ function TopNav({ name }: { name: string }) {
     </div>
   );
 }
-
 interface InstrumentContainerProps {
   state: AppState;
   dispatch: React.Dispatch<DispatchAction>;
   instrument: MembraneInstrument;
 }
-
 export const InstrumentContainer: React.FC<InstrumentContainerProps> = ({
   instrument,
   state,
@@ -53,7 +53,7 @@ export const InstrumentContainer: React.FC<InstrumentContainerProps> = ({
 }: InstrumentContainerProps) => {
   const InstrumentComponent = instrument.component;
   const [synth, setSynth] = useState(
-    new Tone.MembraneSynth({
+    new Tone.MembraneSynth({ //only change made to call MembraneSynth
       oscillator: { type: 'sine' } as Tone.OmniOscillatorOptions,
     }).toDestination(),
   );
@@ -71,7 +71,6 @@ export const InstrumentContainer: React.FC<InstrumentContainerProps> = ({
       }));
 
       new Tone.Part((time, value) => {
-        // the value is an object which contains both the note and the velocity
         synth.triggerAttackRelease(value.note, '4n', time, value.velocity);
         if (value.idx === eachNote.length - 1) {
           dispatch(new DispatchAction('STOP_SONG'));
