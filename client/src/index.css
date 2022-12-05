@@ -75,6 +75,12 @@ html, body, #root {
   animation-duration: 1000ms;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
+
+}
+
+h1 {
+  background-color: black;
+  color: white;
 }
 
 @-moz-keyframes spin {
