@@ -1,15 +1,17 @@
 // NOTE: TRUMPET HAS NOT BEEN IMPLEMENTED YET
 
 // 3rd party
-import { List, Map } from 'immutable';
+import {List, Map} from 'immutable';
 
 // project dependencies
-import { PianoInstrument } from './instruments/Piano';
-import { XylophoneInstrument } from './instruments/Xylophone';
-import { WaveformVisualizer } from './visualizers/Waveform';
-import { JC305Visualizer } from './visualizers/jc305';
-import { dawong025Visualizer } from './visualizers/dawong025';
-import { TrumpetInstrument } from './instruments/dawong025';
+import {BassInstrument} from './instruments/bass';
+import {MilkdropVisualizer} from './visualizers/Milkdrop';
+import {PianoInstrument} from './instruments/Piano';
+import {XylophoneInstrument} from './instruments/Xylophone';
+import {WaveformVisualizer} from './visualizers/Waveform';
+import {JC305Visualizer} from './visualizers/jc305';
+import {dawong025Visualizer} from './visualizers/dawong025';
+import {TrumpetInstrument} from './instruments/dawong025';
 
 
 /** ------------------------------------------------------------------------ **
@@ -21,15 +23,14 @@ export type AppState = Map<string, any>;           // similar to { [id: string]:
  * Start with the default piano instrument.
  * Add your instruments to this list.
  */
-const instruments = List([PianoInstrument, TrumpetInstrument, XylophoneInstrument]);       // similar to Instrument[]
+const instruments = List([PianoInstrument, TrumpetInstrument, XylophoneInstrument, BassInstrument]);       // similar to Instrument[]
 
 
 /**
  * Start with the default waveform visualizer.
  * Add your visualizers to this list.
  */
-const visualizers = List([WaveformVisualizer, JC305Visualizer, dawong025Visualizer]);    // similar to Visualizer[]
-
+const visualizers = List([WaveformVisualizer, JC305Visualizer, dawong025Visualizer, MilkdropVisualizer]);    // similar to Visualizer[]
 
 
 /**
@@ -39,6 +40,6 @@ const visualizers = List([WaveformVisualizer, JC305Visualizer, dawong025Visualiz
  * 'visualizer': List<Visualizer>
  */
 export const defaultState: AppState = Map<string, any>({
-  'instruments': instruments,
-  'visualizers': visualizers,
+    'instruments': instruments,
+    'visualizers': visualizers,
 });
