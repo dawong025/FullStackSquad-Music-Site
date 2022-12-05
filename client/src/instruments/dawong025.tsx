@@ -16,6 +16,11 @@ import { Instrument, InstrumentProps } from '../Instruments';
 const noteSounds = ["/trumpet/trumpet-c.wav", "/trumpet/trumpet-d.wav", 
   "/trumpet/trumpet-e.wav", "/trumpet/trumpet-f.wav", "trumpet/trumpet-g.wav"];
 
+  //Use note sounds to play sounds
+function tonePlayer (ind: any): void {
+  const tp = new Tone.Player(noteSounds[ind]).toDestination();
+  tp.autostart = true;
+}
 interface TrumpetProps {
   note: string; // C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B
   duration?: string;
@@ -31,12 +36,6 @@ export function TrumpetKey({
   minor,
   index,
 }: TrumpetProps): JSX.Element {
-  
-  //Use note sounds to play sounds
-function tonePlayer (ind: any): void {
-  const tp = new Tone.Player(noteSounds[ind]).toDestination();
-  tp.autostart = true;
-}
   /**
    * This React component corresponds to either a major or minor key in the piano.
    * See `PianoKeyWithoutJSX` for the React component without JSX.
@@ -69,8 +68,52 @@ function tonePlayer (ind: any): void {
     ></div>
   );
 }
+// eslint-disable-next-line
+function TrumpetKeyWithoutJSX({
+  note,
+  synth,
+  minor,
+  index,
+}: TrumpetProps): JSX.Element {
+  /**
+   * This React component for pedagogical purposes.
+   * See `PianoKey` for the React component with JSX (JavaScript XML).
+   */
+  return React.createElement(
+    'div',
+    {
+      onMouseDown: () => synth?.triggerAttack(`${tonePlayer(index)}`),
+      onMouseUp: () => synth?.triggerRelease('+0.25'),
+      className: classNames('ba pointer absolute dim', {
+        'bg-black black h3': minor,
+        'black bg-white h4': !minor,
+      }),
+      style: {
+        top: 0,
+        left: `${index * 2}rem`,
+        zIndex: minor ? 1 : 0,
+        width: minor ? '1.5rem' : '2rem',
+        marginLeft: minor ? '0.25rem' : 0,
+      },
+    },
+    [],
+  );
+}
 
-function Trumpet({ synth}: InstrumentProps): JSX.Element {
+function TrumpetType({ title, onClick, active }: any): JSX.Element {
+  return (
+    <div
+      onClick={onClick}
+      className={classNames('dim pointer ph2 pv1 ba mr2 br1 fw7 bw1', {
+        'b--black black': active,
+        'gray b--light-gray': !active,
+      })}
+    >
+      {title}
+    </div>
+  );
+}
+function Trumpet({ synth, setSynth}: InstrumentProps): JSX.Element {
   const keys = List([
     { note: 'C', idx: 0 },
     { note: 'D', idx: 1 },
@@ -78,6 +121,28 @@ function Trumpet({ synth}: InstrumentProps): JSX.Element {
     { note: 'F', idx: 3 },
     { note: 'G', idx: 4 }
   ]);
+  
+  const setOscillator = (newType: Tone.ToneOscillatorType) => {
+    setSynth(oldSynth => {
+      oldSynth.disconnect();
+
+      return new Tone.Synth({
+        oscillator: { type: newType } as Tone.OmniOscillatorOptions,
+      }).toDestination();
+    });
+  };
+  const oscillators: List<OscillatorType> = List([
+    'sine',
+    'sawtooth',
+    'square',
+    'triangle',
+    'fmsine',
+    'fmsawtooth',
+    'fmtriangle',
+    'amsine',
+    'amsawtooth',
+    'amtriangle',
+  ]) as List<OscillatorType>;
 
   return (
     <div className="pv4" style = {{
@@ -91,12 +156,13 @@ function Trumpet({ synth}: InstrumentProps): JSX.Element {
           zIndex: 0,
           width: window.innerWidth/2,
           height: window.innerHeight/2 - window.innerHeight/4,
-          marginLeft: window.innerWidth/8  
+          marginLeft: window.innerWidth/8,
+          transform: "translate(0%, -20%)"
         }
         }/>
       <div className="relative dib h4 w-100 ml4" style ={{
         //Translate Key CSS
-        transform: "translate(36%, -113%)"
+        transform: "translate(33%, -133%)"
       }}>
         {Range(2, 3).map(octave =>
           keys.map(key => {
@@ -115,6 +181,18 @@ function Trumpet({ synth}: InstrumentProps): JSX.Element {
           }),
         )}
       </div>
+      <div className={'pl4 pt4 flex'} style = {{
+        transform: "translate(0%, -240%)"
+      }}>
+        {oscillators.map(o => (
+          <TrumpetType
+            key={o}
+            title={o}
+            onClick={() => setOscillator(o)}
+            active={synth?.oscillator.type === o}
+          />
+        ))}
+        </div>
     </div>
   );
 }
