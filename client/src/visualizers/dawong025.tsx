@@ -28,7 +28,7 @@ export const dawong025Visualizer = new Visualizer(
     p5.strokeWeight(12);
 
     //Setup 
-    p5.frameRate(30);
+    p5.frameRate(60);
     p5.translate(width / 2.5, height);
     p5.angleMode('degrees');
     p5.rotate(270);
@@ -43,7 +43,7 @@ export const dawong025Visualizer = new Visualizer(
       const amplitude = values[ind] as number;
 
       // Map radius to wave form
-      let radius = p5.map(amplitude, -1, 1, 150, 800);
+      let radius = p5.map(amplitude, -1, 1, 100, 800);
 
       p5.fill(255);
 
