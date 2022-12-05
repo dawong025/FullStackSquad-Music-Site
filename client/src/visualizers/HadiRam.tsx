@@ -29,8 +29,8 @@ export const HadiRam = new Visualizer(
 
         p5.angleMode("degrees");
         p5.strokeWeight(5);
-        p5.stroke('white');
-        p5.fill('blue');
+        p5.stroke('blue');
+        p5.fill('green');
         p5.rotate(0.1);
         p5.translate(width / 2.0, height / 2.0);
 
