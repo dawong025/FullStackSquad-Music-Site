@@ -3,9 +3,11 @@ import * as Tone from 'tone';
 import classNames from 'classnames';
 import { List, Range } from 'immutable';
 import React from 'react';
+import bassImg from '../img/bassline.png'
 
 // project imports
 import { Instrument, InstrumentProps } from '../Instruments';
+import { MonoSynth } from 'tone';
 
 /** ------------------------------------------------------------------------ **
  * Contains implementation of components for Bass.
@@ -14,7 +16,7 @@ import { Instrument, InstrumentProps } from '../Instruments';
 interface BassStringProps {
   note: string; // C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B
   duration?: string;
-  synth?: Tone.Synth; // Contains library code for making sound
+  synth?: Tone.MonoSynth; // Contains library code for making sound
   minor?: boolean; // True if minor stroke, false if major stroke
   octave: number;
   index: number; // octave + index together give a location for the Bass stroke
@@ -46,24 +48,25 @@ export function BassString({
         style={{
           // CSS
           backgroundColor: `#333333`,
-          border: `solid 2px #876635`,
+          border: "none",
+          borderRight: `solid 7px #875b35`,
           zIndex: 0,
           top: `${(index % 7) * 5}rem`,
-          left: `${((Math.floor(index) % 7 === 0) ? (Math.floor(index)) + 1 : (Math.floor(index)))}rem`,
+          left: /*`${((Math.floor(index) % 7 === 0) ? (Math.floor(index)) + 1 : (Math.floor(index))) * 5}px`*/ `0`,
           height: `40px`,
-          width: `270px`,
-          marginLeft: `${((Math.floor(index) % 7 === 0) ? (Math.floor(index)) + 1 : (Math.floor(index))) * 1.4}rem`,
+          width: `200px`,
+          marginLeft: `${((Math.floor(index) % 7 === 0) ? (Math.floor(index)) + 1 : (Math.floor(index))) * 28.6}px`,
         }}
       >
         <div
           style={{
-            backgroundColor: `white`,
+            backgroundColor: `lightyellow`,
             position: `absolute`,
             zIndex: 1,
             top: `19px`,
             left: `0px`,
-            height: `2px`,
-            width: `290px`,
+            height: `${ 6 - (index % 7) * 2.5}px`,
+            width: `200px`,
           }}
         ></div>
     </div>
@@ -84,7 +87,7 @@ function BassStringWithoutJSX({
   return React.createElement(
     'div',
     {
-      onMouseDown: () => synth?.triggerAttack(`${note}`),
+      onMouseDown: () => synth?.triggerAttack((`${note}`)),
       onMouseUp: () => synth?.triggerRelease('+0.25'),
       className: classNames('ba pointer absolute dim', {
         'bg-black black h3': minor,
@@ -102,21 +105,7 @@ function BassStringWithoutJSX({
   );
 }
 
-function BassType({ title, onClick, active }: any): JSX.Element {
-  return (
-    <div
-      onClick={onClick}
-      className={classNames('dim pointer ph2 pv1 ba mr2 br1 fw7 bw1', {
-        'b--black black': active,
-        'gray b--light-gray': !active,
-      })}
-    >
-      {title}
-    </div>
-  );
-}
-
-function Bass({ synth, setSynth }: InstrumentProps): JSX.Element {
+function Bass({ }: InstrumentProps): JSX.Element {
   const strokes = List([
     { note: 'G', idx: 0 },
     { note: 'D', idx: 0.5 },
@@ -124,31 +113,44 @@ function Bass({ synth, setSynth }: InstrumentProps): JSX.Element {
     { note: 'E', idx: 1.5 },
   ]);
 
-  const setOscillator = (newType: Tone.ToneOscillatorType) => {
-    setSynth(oldSynth => {
-      oldSynth.disconnect();
-
-      return new Tone.Synth({
-        oscillator: { type: newType } as Tone.OmniOscillatorOptions,
-      }).toDestination();
-    });
-  };
-
-  const oscillators: List<OscillatorType> = List([
-    'sine',
-    'sawtooth',
-    'square',
-    'triangle',
-    'fmsine',
-    'fmsawtooth',
-    'fmtriangle',
-    'amsine',
-    'amsawtooth',
-    'amtriangle',
-  ]) as List<OscillatorType>;
+  var bass = new Tone.MonoSynth({
+    "oscillator": {
+        "type": "fmsquare5",
+		"modulationType" : "triangle",
+      	"modulationIndex" : 2,
+      	"harmonicity" : 0.501
+    },
+    "filter": {
+        "Q": 1,
+        "type": "lowpass",
+        "rolloff": -24
+    },
+    "envelope": {
+        "attack": 0.01,
+        "decay": 0.1,
+        "sustain": 0.4,
+        "release": 2
+    },
+    "filterEnvelope": {
+        "attack": 0.01,
+        "decay": 0.1,
+        "sustain": 0.8,
+        "release": 1.5,
+        "baseFrequency": 70,
+        "octaves": 3.7
+    }
+  }).toDestination();
 
   return (
     <div className="pv4">
+      <img src = {bassImg} alt = "Bass guitar img" style = {
+        {
+          zIndex: 0,
+          width: `30rem`,
+          height: `10rem`,
+          marginLeft: `5rem` 
+        }
+        }/>
       <div className="relative dib h4 w-100 ml4">
         {Range(2, 7).map(octave =>
           strokes.map(stroke => {
@@ -158,7 +160,7 @@ function Bass({ synth, setSynth }: InstrumentProps): JSX.Element {
               <BassString
                 key={note} //react stroke
                 note={note}
-                synth={synth}
+                synth={bass}
                 minor={isMinor}
                 octave={octave}
                 index={(octave - 2) * 7 + stroke.idx}
@@ -167,18 +169,10 @@ function Bass({ synth, setSynth }: InstrumentProps): JSX.Element {
           }),
         )}
       </div>
-      <div className={'pl4 pt4 flex'}>
-        {oscillators.map(o => (
-          <BassType
-            stroke={o}
-            title={o}
-            onClick={() => setOscillator(o)}
-            active={synth?.oscillator.type === o}
-          />
-        ))}
-      </div>
+      
     </div>
   );
 }
 
 export const BassInstrument = new Instrument('Bass', Bass);
+
