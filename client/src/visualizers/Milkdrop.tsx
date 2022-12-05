@@ -29,15 +29,13 @@ export const MilkdropVisualizer = new Visualizer(
 
     
 
-    // Background color gradient: color1 = top color, color2 = bottom color
-    //p5.strokeWeight(dim * 0.0002)
-    //let color2 = p5.color(218, 210, 216);
+  
+    p5.strokeWeight(dim * 0.01)
+    let color2 = p5.color(218, 210, 216);
     let color1 = p5.color(20, 54, 66);
-    //p5.strokeWeight(dim * 0.0002)
-    p5.strokeWeight(dim * 0.0001)
     for (let y = 0; y < height; y++) {
       let n = p5.map(y, 0, height, 0, 1);
-      let newColor = p5.lerpColor(color1, color1, n);
+      let newColor = p5.lerpColor(color1, color2, n);
       p5.stroke(newColor);
       p5.line(0, y, width, y);
     }
